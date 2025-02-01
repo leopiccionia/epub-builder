@@ -1,0 +1,31 @@
+{
+  "name": "@leopiccionia/epub-builder",
+  "version": "0.0.1",
+  "description": "A general-purpose EPUB flow builder",
+  "main": "./dist/index",
+  "keywords": [
+    "ebook",
+    "epub"
+  ],
+  "author": {
+    "email": "leopiccionia@gmail.com",
+    "name": "Leonardo Piccioni de Almeida"
+  },
+  "license": "BSD-3-Clause",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "unbuild": "^3.3.1",
+    "vitest": "^3.0.4"
+  },
+  "dependencies": {
+    "@zip.js/zip.js": "^2.7.57",
+    "mime": "^4.0.6"
+  }
+}
