@@ -1,4 +1,8 @@
+import { populateConfig } from './config'
+import type { EpubBuilderConfig } from './config'
 import { readBinaryFile } from './files'
+import { loadLocale } from './locales'
+import type { Locale } from './locales'
 import { BinaryResource, TextResource } from './resources'
 import type { Resource, ResourceProperty } from './resources'
 import { ZipContainer } from './zip'
@@ -7,6 +11,14 @@ import { ZipContainer } from './zip'
  * A non-opinionated EPUB builder
  */
 export class EpubBuilder {
+  /**
+   * The builder config
+   */
+  config: EpubBuilderConfig
+  /**
+   * The builder locale
+   */
+  locale!: Locale
   /**
    * The list of registered EPUB resources
    */
@@ -18,8 +30,10 @@ export class EpubBuilder {
 
   /**
    * The private constructor
+   * @param config The builder config
    */
-  private constructor () {
+  private constructor (config: EpubBuilderConfig) {
+    this.config = config
     this.resources = []
   }
 
@@ -65,10 +79,13 @@ export class EpubBuilder {
 
   /**
    * Returns an empty `EpubBuilder`
+   * @param partialConfig The builder config
    */
-  static async init (): Promise<EpubBuilder> {
-    const builder = new EpubBuilder()
+  static async init (partialConfig: Partial<EpubBuilderConfig> = {}): Promise<EpubBuilder> {
+    const config = populateConfig(partialConfig)
+    const builder = new EpubBuilder(config)
 
+    builder.locale = await loadLocale(config.locale)
     builder.zip = await ZipContainer.init()
 
     return builder

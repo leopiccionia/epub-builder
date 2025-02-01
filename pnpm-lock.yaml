@@ -8,9 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@lukeed/uuid':
+        specifier: ^2.0.1
+        version: 2.0.1
       '@zip.js/zip.js':
         specifier: ^2.7.57
         version: 2.7.57
+      defu:
+        specifier: ^6.1.4
+        version: 6.1.4
       mime:
         specifier: ^4.0.6
         version: 4.0.6
@@ -265,6 +271,14 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@lukeed/csprng@1.1.0':
+    resolution: {integrity: sha512-Z7C/xXCiGWsg0KuKsHTKJxbWhpI3Vs5GwLfOean7MGyVFGqdRgBbAjOCh6u4bbjPc/8MJ2pZmK/0DLdCbivLDA==}
+    engines: {node: '>=8'}
+
+  '@lukeed/uuid@2.0.1':
+    resolution: {integrity: sha512-qC72D4+CDdjGqJvkFMMEAtancHUQ7/d/tAiHf64z8MopFDmcrtbcJuerDtFceuAfQJ2pDSfCKCtbqoGBNnwg0w==}
+    engines: {node: '>=8'}
 
   '@rollup/plugin-alias@5.1.1':
     resolution: {integrity: sha512-PR9zDb+rOzkRb2VD+EuKB7UC41vU5DIwZ5qqCpk0KJudcWAyi8rvYOhS7+L5aZCspw1stTViLgN5v6FF1p5cgQ==}
@@ -1374,6 +1388,12 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
+
+  '@lukeed/csprng@1.1.0': {}
+
+  '@lukeed/uuid@2.0.1':
+    dependencies:
+      '@lukeed/csprng': 1.1.0
 
   '@rollup/plugin-alias@5.1.1(rollup@4.32.1)':
     optionalDependencies:

@@ -1,9 +1,12 @@
+import { v4 as uuid } from '@lukeed/uuid/secure'
+import { defu } from 'defu'
+
 import type { KnownLocale, Locale } from './locales'
 
 /**
- * A book metadata
+ * An ebook set of metadata
  */
-export interface BookMeta {
+export interface EbookMeta {
   /**
    * The book title
    */
@@ -86,7 +89,7 @@ export interface BookMeta {
 /**
  * A EPUB builder config
  */
-export interface EpubConfig {
+export interface EpubBuilderConfig {
   /**
    * The builder locale
    */
@@ -94,5 +97,31 @@ export interface EpubConfig {
   /**
    * The book metadata
    */
-  meta: BookMeta
+  meta: EbookMeta
+}
+
+/**
+ * Fills the user-provided config with default values
+ * @param partialConfig The partial config
+ * @returns The completely-filled config
+ */
+export function populateConfig (partialConfig: Partial<EpubBuilderConfig>): EpubBuilderConfig {
+  return defu(partialConfig, {
+    locale: 'en' as const,
+    meta: {
+      title: '',
+      subtitle: '',
+      description: '',
+      direction: 'ltr' as const,
+      language: 'en',
+      publisher: {
+        type: 'Organization' as const,
+        name: '',
+      },
+      creators: [],
+      ids: {
+        uuid: uuid(),
+      },
+    },
+  })
 }
