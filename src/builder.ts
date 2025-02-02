@@ -1,5 +1,5 @@
 import { populateConfig } from './config'
-import type { EpubBuilderConfig } from './config'
+import type { EpubBuilderConfig, EpubBuilderPartialConfig } from './config'
 import { generateContainerXml } from './container-xml'
 import { generateContentOpf } from './content-opf'
 import { loadLocale } from './locales'
@@ -95,7 +95,7 @@ export class EpubBuilder {
    * Returns an empty `EpubBuilder`
    * @param partialConfig The builder config
    */
-  static async init (partialConfig: Partial<EpubBuilderConfig> = {}): Promise<EpubBuilder> {
+  static async init (partialConfig: EpubBuilderPartialConfig): Promise<EpubBuilder> {
     const config = populateConfig(partialConfig)
     const builder = new EpubBuilder(config)
 

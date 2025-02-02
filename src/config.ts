@@ -160,16 +160,34 @@ export interface EpubBuilderConfig {
   toc: TocEntry[]
 }
 
+export interface EpubBuilderPartialConfig {
+  /**
+  * The ebook landmarks
+  */
+  landmarks: Landmarks
+  /**
+   * The builder locale
+   */
+  locale: KnownLocale | Locale
+  /**
+   * The ebook metadata
+   */
+  meta: Partial<EbookMeta>
+  /**
+   * The table of contents
+   */
+  toc: TocEntry[]
+}
+
 /**
  * Fills the user-provided config with default values
  * @param partialConfig The partial config
  * @returns The completely-filled config
  */
-export function populateConfig (partialConfig: Partial<EpubBuilderConfig>): EpubBuilderConfig {
+export function populateConfig (partialConfig: EpubBuilderPartialConfig): EpubBuilderConfig {
   return defu(partialConfig, {
-    locale: 'en' as const,
     meta: {
-      title: '',
+      title: 'EPUB',
       subtitle: '',
       description: '',
       direction: 'ltr' as const,
@@ -185,10 +203,5 @@ export function populateConfig (partialConfig: Partial<EpubBuilderConfig>): Epub
         uuid: uuid(),
       },
     },
-    landmarks: {
-      bodymatter: '',
-      toc: '',
-    },
-    toc: [],
   })
 }
