@@ -36,11 +36,10 @@ function generateTocList (entries: TocEntry[]): Element {
 /**
  * Generates the navigation document
  * @param config The builder config
- * @param locale The builder locale
  * @returns The generated XML string
  */
-export function generateNavXhtml (config: EpubBuilderConfig, locale: Locale): string {
-  const { landmarks, meta, toc } = config
+export function generateNavXhtml (config: EpubBuilderConfig): string {
+  const { landmarks, locale, meta, toc } = config
 
   const tree = x('html', {
     dir: meta.direction,

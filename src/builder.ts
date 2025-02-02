@@ -3,8 +3,6 @@ import { populateConfig } from './config'
 import type { EpubBuilderConfig, EpubBuilderPartialConfig } from './config'
 import { generateContainerXml } from './container-xml'
 import { generateContentOpf } from './content-opf'
-import { loadLocale } from './locales'
-import type { Locale } from './locales'
 import { generateNavXhtml } from './nav-xhtml'
 import { generateNcx } from './ncx'
 import { createResource } from './resources'
@@ -20,10 +18,6 @@ export class EpubBuilder {
    * The builder config
    */
   config: EpubBuilderConfig
-  /**
-   * The builder locale
-   */
-  locale!: Locale
   /**
    * The list of registered EPUB resources
    */
@@ -86,10 +80,10 @@ export class EpubBuilder {
    * Generate metadata files for EPUB compliance
    */
   async #generateFiles (): Promise<void> {
-    await this.addTextFile('nav.xhtml', generateNavXhtml(this.config, this.locale), ['nav'])
+    await this.addTextFile('nav.xhtml', generateNavXhtml(this.config), ['nav'])
     await this.addTextFile('toc.ncx', generateNcx(this.config))
 
-    await this.zip.addTextFile('OEBPS/content.opf', generateContentOpf(this.config, this.resources, this.locale))
+    await this.zip.addTextFile('OEBPS/content.opf', generateContentOpf(this.config, this.resources))
     await this.zip.addTextFile('META-INF/com.apple.ibooks.display-options.xml', generateAppleDisplayOptionsXml(this.resources))
   }
 
@@ -101,9 +95,7 @@ export class EpubBuilder {
     const config = populateConfig(partialConfig)
     const builder = new EpubBuilder(config)
 
-    builder.locale = await loadLocale(config.locale)
     builder.zip = await ZipContainer.init()
-
     await builder.zip.addTextFile('META-INF/container.xml', generateContainerXml())
 
     return builder

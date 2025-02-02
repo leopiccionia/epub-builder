@@ -13,7 +13,6 @@ describe('Basic tests', () => {
       },
     })
 
-    expect(builder.config.locale).toBe('en')
-    expect(typeof builder.locale).toBe('object')
+    expect(typeof builder.config.locale).toBe('object')
   })
 })

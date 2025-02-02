@@ -16,7 +16,8 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
-    }
+    },
+    "./locales/*": "./dist/locales/*"
   },
   "files": [
     "dist"

@@ -2,7 +2,6 @@ import { u } from 'unist-builder'
 import { x } from 'xastscript'
 
 import type { EpubBuilderConfig } from './config'
-import type { Locale } from './locales'
 import { generateGuide } from './opf/guide'
 import { generateManifest } from './opf/manifest'
 import { generateMetadata, PUB_ID } from './opf/metadata'
@@ -16,8 +15,8 @@ import { stringifyXml } from './utils/xml'
  * @param resources The list of registered resources
  * @returns The generated XML string
  */
-export function generateContentOpf (config: EpubBuilderConfig, resources: Resource[], locale: Locale): string {
-  const { landmarks, meta, spine } = config
+export function generateContentOpf (config: EpubBuilderConfig, resources: Resource[]): string {
+  const { landmarks, locale, meta, spine } = config
 
   const cover = resources.find((resource) => resource.properties.includes('cover-image'))
 
