@@ -25,69 +25,15 @@ export interface Resource {
 }
 
 /**
- * A binary-encoded resource
+ * Generates a resource descriptor
+ * @param href The resource's path inside the EPUB container
+ * @param properties The resource's manifest properties
+ * @returns The resource descriptior
  */
-export class BinaryResource implements Resource {
-  /**
-   * The resource's path
-   */
-  href: string
-  /**
-   * The resource's MIME type
-   */
-  mime: string
-  /**
-   * The resource's manifest properties
-   */
-  properties: ResourceProperty[]
-  /**
-   * The resource's binary-encoded content
-   */
-  private content: Blob
-
-  /**
-   * @param href The resource's path inside the EPUB container
-   * @param content The resource's binary-encoded content
-   * @param properties The resource's manifest properties
-   */
-  constructor (href: string, content: Blob, properties: ResourceProperty[] = []) {
-    this.href = href
-    this.content = content
-    this.mime = getMimeType(href)!
-    this.properties = properties
-  }
-}
-
-/**
- * A text-encoded resource
- */
-export class TextResource implements Resource {
-  /**
-   * The resource's path
-   */
-  href: string
-  /**
-   * The resource's MIME type
-   */
-  mime: string
-  /**
-   * The resource's manifest properties
-   */
-  properties: ResourceProperty[]
-  /**
-   * The resource's text-encoded content
-   */
-  private content: string
-
-  /**
-   * @param href The resource's path inside the EPUB container
-   * @param content The resource's text-encoded content
-   * @param properties The resource's manifest properties
-   */
-  constructor (href: string, content: string, properties: ResourceProperty[] = []) {
-    this.href = href
-    this.content = content
-    this.mime = getMimeType(href)!
-    this.properties = properties
+export function createResource (href: string, properties: ResourceProperty[] = []): Resource {
+  return {
+    href,
+    mime: getMimeType(href)!,
+    properties,
   }
 }

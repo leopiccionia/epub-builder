@@ -6,7 +6,7 @@ import { loadLocale } from './locales'
 import type { Locale } from './locales'
 import { generateNavXhtml } from './nav-xhtml'
 import { generateNcx } from './ncx'
-import { BinaryResource, TextResource } from './resources'
+import { createResource } from './resources'
 import type { Resource, ResourceProperty } from './resources'
 import { readBinaryFile } from './utils/files'
 import { ZipContainer } from './zip'
@@ -48,10 +48,24 @@ export class EpubBuilder {
    * @param properties The resource's manifest properties
    * @returns The registered resource
    */
-  async addBinaryFile (href: string, content: Blob, properties: ResourceProperty[] = []): Promise<BinaryResource> {
-    const resource = new BinaryResource(href, content, properties)
+  async addBinaryFile (href: string, content: Blob, properties: ResourceProperty[] = []): Promise<Resource> {
+    const resource = createResource(href, properties)
     this.resources.push(resource)
     await this.zip.addBinaryFile(`OEBPS/${href}`, content)
+    return resource
+  }
+
+  /**
+   * Registers a text-encoded file
+   * @param href The resource's path inside the EPUB container
+   * @param content The resource's text-encoded content
+   * @param properties The resource's manifest properties
+   * @returns The registered resource
+   */
+  async addTextFile (href: string, content: string, properties: ResourceProperty[] = []): Promise<Resource> {
+    const resource = createResource(href, properties)
+    this.resources.push(resource)
+    await this.zip.addTextFile(`OEBPS/${href}`, content)
     return resource
   }
 
@@ -62,23 +76,9 @@ export class EpubBuilder {
    * @param properties The resource's manifest properties
    * @returns The registered resource
    */
-  async addFile (href: string, path: string, properties: ResourceProperty[] = []): Promise<BinaryResource> {
+  async copyFile (href: string, path: string, properties: ResourceProperty[] = []): Promise<Resource> {
     const blob = await readBinaryFile(path)
     return this.addBinaryFile(href, blob, properties)
-  }
-
-  /**
-   * Registers a text-encoded file
-   * @param href The resource's path inside the EPUB container
-   * @param content The resource's text-encoded content
-   * @param properties The resource's manifest properties
-   * @returns The registered resource
-   */
-  async addTextFile (href: string, content: string, properties: ResourceProperty[] = []): Promise<TextResource> {
-    const resource = new TextResource(href, content, properties)
-    this.resources.push(resource)
-    await this.zip.addTextFile(`OEBPS/${href}`, content)
-    return resource
   }
 
   /**
