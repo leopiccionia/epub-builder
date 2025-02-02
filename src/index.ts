@@ -1,6 +1,6 @@
 export { EpubBuilder } from './builder'
-export type { EbookMeta, EpubBuilderConfig, Landmarks, TocEntry } from './config'
+export type { EbookMeta, EpubBuilderConfig, EpubBuilderPartialConfig, Landmarks, TocEntry } from './config'
+export { populateConfig } from './config'
 export type { Locale } from './locales'
 export type { Resource, ResourceProperty } from './resources'
-
 export { getMimeType, isCoreMediaType } from './utils/mime'
