@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { getMimeType, isCoreMediaType } from '../src/mime'
+import { getMimeType, isCoreMediaType } from '../src/utils/mime'
 
 describe('Get MIME types', () => {
   it('Images', () => {

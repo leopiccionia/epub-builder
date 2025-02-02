@@ -1,4 +1,4 @@
-import { getMimeType } from './mime'
+import { getMimeType } from './utils/mime'
 
 /**
  * A resource manifest property
@@ -19,9 +19,9 @@ export interface Resource {
    */
   mime: string
   /**
-   * The resource's manifest property
+   * The resource's manifest properties
    */
-  property: ResourceProperty | undefined
+  properties: ResourceProperty[]
 }
 
 /**
@@ -37,9 +37,9 @@ export class BinaryResource implements Resource {
    */
   mime: string
   /**
-   * The resource's manifest property
+   * The resource's manifest properties
    */
-  property: ResourceProperty | undefined
+  properties: ResourceProperty[]
   /**
    * The resource's binary-encoded content
    */
@@ -48,13 +48,13 @@ export class BinaryResource implements Resource {
   /**
    * @param href The resource's path inside the EPUB container
    * @param content The resource's binary-encoded content
-   * @param property The resource's manifest property
+   * @param properties The resource's manifest properties
    */
-  constructor (href: string, content: Blob, property: ResourceProperty | undefined = undefined) {
+  constructor (href: string, content: Blob, properties: ResourceProperty[] = []) {
     this.href = href
     this.content = content
     this.mime = getMimeType(href)!
-    this.property = property
+    this.properties = properties
   }
 }
 
@@ -71,9 +71,9 @@ export class TextResource implements Resource {
    */
   mime: string
   /**
-   * The resource's manifest property
+   * The resource's manifest properties
    */
-  property: ResourceProperty | undefined
+  properties: ResourceProperty[]
   /**
    * The resource's text-encoded content
    */
@@ -82,12 +82,12 @@ export class TextResource implements Resource {
   /**
    * @param href The resource's path inside the EPUB container
    * @param content The resource's text-encoded content
-   * @param property The resource's manifest property
+   * @param properties The resource's manifest properties
    */
-  constructor (href: string, content: string, property: ResourceProperty | undefined = undefined) {
+  constructor (href: string, content: string, properties: ResourceProperty[] = []) {
     this.href = href
     this.content = content
     this.mime = getMimeType(href)!
-    this.property = property
+    this.properties = properties
   }
 }

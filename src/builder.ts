@@ -1,10 +1,14 @@
 import { populateConfig } from './config'
 import type { EpubBuilderConfig } from './config'
-import { readBinaryFile } from './files'
+import { generateContainerXml } from './container-xml'
+import { generateContentOpf } from './content-opf'
 import { loadLocale } from './locales'
 import type { Locale } from './locales'
+import { generateNavXhtml } from './nav-xhtml'
+import { generateNcx } from './ncx'
 import { BinaryResource, TextResource } from './resources'
 import type { Resource, ResourceProperty } from './resources'
+import { readBinaryFile } from './utils/files'
 import { ZipContainer } from './zip'
 
 /**
@@ -22,7 +26,7 @@ export class EpubBuilder {
   /**
    * The list of registered EPUB resources
    */
-  private resources: Resource[]
+  readonly resources: Resource[]
   /**
    * The EPUB ZIP container
    */
@@ -40,14 +44,14 @@ export class EpubBuilder {
   /**
    * Registers a binary-encoded file
    * @param href The resource's path inside the EPUB container
-   * @param content The resource's binary-encoded property
-   * @param property The resource's manifest property
+   * @param content The resource's binary-encoded content
+   * @param properties The resource's manifest properties
    * @returns The registered resource
    */
-  async addBinaryFile (href: string, content: Blob, property: ResourceProperty | undefined = undefined): Promise<BinaryResource> {
-    const resource = new BinaryResource(href, content, property)
+  async addBinaryFile (href: string, content: Blob, properties: ResourceProperty[] = []): Promise<BinaryResource> {
+    const resource = new BinaryResource(href, content, properties)
     this.resources.push(resource)
-    await this.zip.addBinaryFile(href, content)
+    await this.zip.addBinaryFile(`OEBPS/${href}`, content)
     return resource
   }
 
@@ -55,26 +59,36 @@ export class EpubBuilder {
    * Reads a file and registers it as a resource
    * @param href The resource's path inside the EPUB container
    * @param path The file's physical path
-   * @param property The resource's manifest property
+   * @param properties The resource's manifest properties
    * @returns The registered resource
    */
-  async addFile (href: string, path: string, property: ResourceProperty | undefined = undefined): Promise<BinaryResource> {
+  async addFile (href: string, path: string, properties: ResourceProperty[] = []): Promise<BinaryResource> {
     const blob = await readBinaryFile(path)
-    return this.addBinaryFile(href, blob, property)
+    return this.addBinaryFile(href, blob, properties)
   }
 
   /**
    * Registers a text-encoded file
    * @param href The resource's path inside the EPUB container
    * @param content The resource's text-encoded content
-   * @param property The resource's manifest property
+   * @param properties The resource's manifest properties
    * @returns The registered resource
    */
-  async addTextFile (href: string, content: string, property: ResourceProperty | undefined = undefined): Promise<TextResource> {
-    const resource = new TextResource(href, content, property)
+  async addTextFile (href: string, content: string, properties: ResourceProperty[] = []): Promise<TextResource> {
+    const resource = new TextResource(href, content, properties)
     this.resources.push(resource)
-    await this.zip.addTextFile(href, content)
+    await this.zip.addTextFile(`OEBPS/${href}`, content)
     return resource
+  }
+
+  /**
+   * Generate metadata files for EPUB compliance
+   */
+  async #generateFiles (): Promise<void> {
+    await this.addTextFile('nav.xhtml', generateNavXhtml(this.config, this.locale), ['nav'])
+    await this.addTextFile('toc.ncx', generateNcx(this.config))
+
+    await this.zip.addTextFile('OEBPS/content.opf', generateContentOpf(this.config, this.resources, this.locale))
   }
 
   /**
@@ -88,6 +102,8 @@ export class EpubBuilder {
     builder.locale = await loadLocale(config.locale)
     builder.zip = await ZipContainer.init()
 
+    await builder.zip.addTextFile('META-INF/container.xml', generateContainerXml())
+
     return builder
   }
 
@@ -96,6 +112,7 @@ export class EpubBuilder {
    * @returns The EPUB binary data
    */
   async seal (): Promise<Blob> {
+    await this.#generateFiles()
     return this.zip.seal()
   }
 }

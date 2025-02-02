@@ -29,6 +29,10 @@ export interface EbookMeta {
    */
   language: string
   /**
+   * The book publishing date, in `YYYY-MM-DD` format
+   */
+  date: string
+  /**
    * The book publisher
    */
   publisher: {
@@ -68,6 +72,23 @@ export interface EbookMeta {
     alternate?: { [language: string]: string }
   }>
   /**
+   * The book subjects
+   */
+  subjects: Array<{
+    /**
+     * The human-readable subject description
+     */
+    label: string
+    /**
+     * The authority that issued the subject term
+     */
+    authority: string
+    /**
+     * The machine-readable subject term
+     */
+    term: number | string
+  }>
+  /**
    * Unique identifiers
    */
   ids: {
@@ -87,17 +108,56 @@ export interface EbookMeta {
 }
 
 /**
- * A EPUB builder config
+ * An EPUB landmarks definition
+ */
+export interface Landmarks {
+  /**
+   * The start of content
+   */
+  bodymatter: string
+  /**
+   * The table of contents
+   */
+  toc: string
+  /**
+   * The list of images
+   */
+  loi?: string
+  /**
+   * Other landmarks (may not be supported by all readers)
+   */
+  [landmark: string]: string | undefined
+}
+
+/**
+ * A link in the table of contents
+ */
+export type TocEntry = {
+  text: string,
+  href: string,
+  children?: TocEntry[],
+}
+
+/**
+ * An EPUB builder config
  */
 export interface EpubBuilderConfig {
+  /**
+   * The ebook landmarks
+   */
+  landmarks: Landmarks
   /**
    * The builder locale
    */
   locale: KnownLocale | Locale
   /**
-   * The book metadata
+   * The ebook metadata
    */
   meta: EbookMeta
+  /**
+   * The table of contents
+   */
+  toc: TocEntry[]
 }
 
 /**
@@ -114,14 +174,21 @@ export function populateConfig (partialConfig: Partial<EpubBuilderConfig>): Epub
       description: '',
       direction: 'ltr' as const,
       language: 'en',
+      date: '',
       publisher: {
         type: 'Organization' as const,
         name: '',
       },
       creators: [],
+      subjects: [],
       ids: {
         uuid: uuid(),
       },
     },
+    landmarks: {
+      bodymatter: '',
+      toc: '',
+    },
+    toc: [],
   })
 }

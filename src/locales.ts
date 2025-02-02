@@ -1,14 +1,31 @@
 import { resolve as resolvePath } from 'node:path'
 
-import { readTextFile } from './files'
+import { readTextFile } from './utils/files'
 
 /**
  * An EpubBuilder locale
  */
 export interface Locale {
-  bodymatter?: string
-  landmark?: string
-  toc?: string
+  /**
+   * Translation of "Start of content"
+   */
+  bodymatter: string
+  /**
+   * Translation of "Guide"
+   */
+  landmarks: string
+  /**
+   * Translation of "List of images"
+   */
+  loi: string
+  /**
+   * Translation of "Table of contents"
+   */
+  toc: string
+  /**
+   * Translation of the name of another landmark
+   */
+  [landmark: string]: string | undefined
 }
 
 /**
@@ -20,9 +37,9 @@ export type KnownLocale = 'en' | 'pt'
  * Resolves the locale object from shorthand
  * @param locale A locale shorthand
  */
-async function resolveLocaleShorthand (locale: KnownLocale | Locale): Promise<Locale> {
+async function resolveLocaleShorthand (locale: KnownLocale | Partial<Locale>): Promise<Locale> {
   if (typeof locale === 'object') {
-    return locale
+    return locale as Locale
   }
 
   const path = resolvePath(import.meta.dirname, `static/locales/${locale}.json`)
@@ -35,7 +52,7 @@ async function resolveLocaleShorthand (locale: KnownLocale | Locale): Promise<Lo
  * @param locale An EpubBuilder locale
  * @returns The resolved locale
  */
-export async function loadLocale (locale: KnownLocale | Locale): Promise<Locale> {
+export async function loadLocale (locale: KnownLocale | Partial<Locale>): Promise<Locale> {
   const translations = {}
 
   const languageStack = [locale]
@@ -48,5 +65,5 @@ export async function loadLocale (locale: KnownLocale | Locale): Promise<Locale>
     Object.assign(translations, newTranslations)
   }
 
-  return translations
+  return translations as Locale
 }
