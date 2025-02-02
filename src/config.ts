@@ -155,6 +155,10 @@ export interface EpubBuilderConfig {
    */
   meta: EbookMeta
   /**
+   * The ebook spine
+   */
+  spine: string[]
+  /**
    * The table of contents
    */
   toc: TocEntry[]
@@ -168,11 +172,15 @@ export interface EpubBuilderPartialConfig {
   /**
    * The builder locale
    */
-  locale: KnownLocale | Locale
+  locale?: KnownLocale | Locale
   /**
    * The ebook metadata
    */
-  meta: Partial<EbookMeta>
+  meta?: Partial<EbookMeta>
+  /**
+   * The ebook spine
+   */
+  spine: string[]
   /**
    * The table of contents
    */
@@ -186,6 +194,7 @@ export interface EpubBuilderPartialConfig {
  */
 export function populateConfig (partialConfig: EpubBuilderPartialConfig): EpubBuilderConfig {
   return defu(partialConfig, {
+    locale: 'en' as const,
     meta: {
       title: 'EPUB',
       subtitle: '',

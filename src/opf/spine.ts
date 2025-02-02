@@ -1,19 +1,19 @@
 import type { Element } from 'xast'
 import { x } from 'xastscript'
 
-import type { EbookMeta, TocEntry } from '../config'
+import type { EbookMeta } from '../config'
 import { generateItemId } from '../utils/ids'
 
 /**
  * Generates the OPF `<spine>` section
  * @param meta The ebook metadata
- * @param toc The table of contents
+ * @param spine The ebook spine
  * @returns The generated XML tree
  */
-export function generateSpine (meta: EbookMeta, toc: TocEntry[]): Element {
+export function generateSpine (meta: EbookMeta, spine: string[]): Element {
   return x('spine', { 'page-progression-direction': meta.direction, toc: 'toc-ncx' },
-    toc.map((entry) => x('itemref', {
-      idref: generateItemId(entry.href),
+    spine.map((href) => x('itemref', {
+      idref: generateItemId(href),
       linear: 'yes',
     })),
   )

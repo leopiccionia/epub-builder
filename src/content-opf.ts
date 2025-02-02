@@ -17,7 +17,7 @@ import { stringifyXml } from './utils/xml'
  * @returns The generated XML string
  */
 export function generateContentOpf (config: EpubBuilderConfig, resources: Resource[], locale: Locale): string {
-  const { landmarks, meta, toc } = config
+  const { landmarks, meta, spine } = config
 
   const cover = resources.find((resource) => resource.properties.includes('cover-image'))
 
@@ -32,7 +32,7 @@ export function generateContentOpf (config: EpubBuilderConfig, resources: Resour
     }, [
       generateMetadata(meta, cover),
       generateManifest(resources),
-      generateSpine(meta, toc),
+      generateSpine(meta, spine),
       generateGuide(landmarks, locale),
     ])
   ])
