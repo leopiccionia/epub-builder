@@ -53,10 +53,10 @@ const ebook = await EpubBuilder.init({
 })
 
 // Add the ebook files
-ebook.addTextFile('toc.xhtml', '...')
-ebook.addTextFile('chapter-1.xhtml', '...')
-ebook.addTextFile('cover.xhtml', '...')
-ebook.copyFile('cover.png', 'PATH TO THE IMAGE')
+await ebook.addTextFile('toc.xhtml', '...')
+await ebook.addTextFile('chapter-1.xhtml', '...')
+await ebook.addTextFile('cover.xhtml', '...')
+await ebook.copyFile('cover.png', 'PATH TO THE IMAGE')
 
 // Returns the ZIP file
 const blob = await ebook.seal()

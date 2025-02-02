@@ -1,15 +1,25 @@
 {
   "name": "@leopiccionia/epub-builder",
   "version": "0.0.1",
-  "description": "A general-purpose EPUB flow builder",
+  "description": "A non-opinionated EPUB builder for reflowable content",
   "type": "module",
   "keywords": [
     "ebook",
     "epub"
   ],
+  "homepage": "https://github.com/leopiccionia/epub-builder",
   "author": {
     "email": "leopiccionia@gmail.com",
-    "name": "Leonardo Piccioni de Almeida"
+    "name": "Leonardo Piccioni de Almeida",
+    "url": "https://leopiccionia.github.io"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leopiccionia/epub-builder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/leopiccionia/epub-builder/issues",
+    "email": "leopiccionia@gmail.com"
   },
   "license": "BSD-3-Clause",
   "exports": {
