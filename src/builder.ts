@@ -1,3 +1,4 @@
+import { generateAppleDisplayOptionsXml } from './apple-display-options-xml'
 import { populateConfig } from './config'
 import type { EpubBuilderConfig, EpubBuilderPartialConfig } from './config'
 import { generateContainerXml } from './container-xml'
@@ -89,6 +90,7 @@ export class EpubBuilder {
     await this.addTextFile('toc.ncx', generateNcx(this.config))
 
     await this.zip.addTextFile('OEBPS/content.opf', generateContentOpf(this.config, this.resources, this.locale))
+    await this.zip.addTextFile('META-INF/com.apple.ibooks.display-options.xml', generateAppleDisplayOptionsXml(this.resources))
   }
 
   /**
