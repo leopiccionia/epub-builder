@@ -14,7 +14,7 @@ describe('Get MIME types', () => {
 
   it('Audio', () => {
     expect(getMimeType('audio.mp3')).toBe('audio/mpeg')
-    expect(getMimeType('audio.mp4')).toBe('audio/mp4')
+    expect(getMimeType('audio.m4a')).toBe('audio/mp4')
     expect(getMimeType('audio.oga')).toBe('audio/ogg')
     expect(getMimeType('audio.ogg')).toBe('audio/ogg')
   })
@@ -79,6 +79,9 @@ describe('Validate core media types', () => {
 
     expect(getMimeType('video.mpeg')).toBe('video/mpeg')
     expect(isCoreMediaType('video/mpeg')).toBe(false)
+
+    expect(getMimeType('video.mp4')).toBe('video/mp4')
+    expect(isCoreMediaType('video/mp4')).toBe(false)
 
     expect(getMimeType('video.webm')).toBe('video/webm')
     expect(isCoreMediaType('video/webm')).toBe(false)

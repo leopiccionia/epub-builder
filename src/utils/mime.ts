@@ -36,9 +36,7 @@ const ALLOWED_MEDIA_TYPES: string[] = [
  */
 export function getMimeType (path: string): string | undefined {
   const mimeType = mime.getType(path) ?? undefined
-  if (mimeType === 'video/mp4') {
-    return 'audio/mp4'
-  } else if (mimeType === 'text/javascript') {
+  if (mimeType === 'text/javascript') {
     return 'application/javascript'
   }
   return mimeType
