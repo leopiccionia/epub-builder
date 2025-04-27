@@ -37,16 +37,16 @@
     "test": "vitest"
   },
   "devDependencies": {
-    "@types/node": "^22.13.0",
+    "@types/node": "^22.15.2",
     "@types/xast": "^2.0.4",
-    "unbuild": "^3.3.1",
-    "vitest": "^3.0.4"
+    "unbuild": "^3.5.0",
+    "vitest": "^3.1.2"
   },
   "dependencies": {
     "@lukeed/uuid": "^2.0.1",
-    "@zip.js/zip.js": "^2.7.57",
+    "@zip.js/zip.js": "^2.7.60",
     "defu": "^6.1.4",
-    "mime": "^4.0.6",
+    "mime": "^4.0.7",
     "unist-builder": "^4.0.0",
     "xast-util-to-xml": "^4.0.0",
     "xastscript": "^4.0.0"
