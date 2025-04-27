@@ -113,6 +113,9 @@ describe('Validate core media types', () => {
     expect(getMimeType('index.html')).toBe('text/html')
     expect(isCoreMediaType('text/html')).toBe(false)
 
+    expect(getMimeType('README.md')).toBe('text/markdown')
+    expect(isCoreMediaType('text/markdown')).toBe(false)
+
     expect(getMimeType('book.pdf')).toBe('application/pdf')
     expect(isCoreMediaType('application/pdf')).toBe(false)
 
