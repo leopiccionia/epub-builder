@@ -122,6 +122,9 @@ describe('Validate core media types', () => {
     expect(getMimeType('data.xml')).toBe('application/xml')
     expect(isCoreMediaType('application/xml')).toBe(false)
 
+    expect(getMimeType('data.yml')).toBe('text/yaml')
+    expect(isCoreMediaType('text/yaml')).toBe(false)
+
     expect(getMimeType('folder.zip')).toBe('application/zip')
     expect(isCoreMediaType('application/zip')).toBe(false)
   })
