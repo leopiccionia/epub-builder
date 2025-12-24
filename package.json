@@ -1,6 +1,6 @@
 {
   "name": "@leopiccionia/epub-builder",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A non-opinionated EPUB builder for reflowable content",
   "type": "module",
   "keywords": [
